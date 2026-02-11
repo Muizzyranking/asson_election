@@ -1,5 +1,4 @@
 asgiref==3.11.0
--e file:///home/muizzyranking/Projects/asson-election
 crispy-bootstrap5==2025.6
 dj-database-url==3.1.0
 django==6.0.1
