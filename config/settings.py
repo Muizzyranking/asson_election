@@ -11,7 +11,8 @@ ALLOWED_HOSTS = ["*"]
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.up.railway.app",  # Wildcard for Railway subdomains
+    "*",
+    "https://assonelection-production.up.railway.app",
 ]
 
 
