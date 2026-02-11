@@ -1,4 +1,4 @@
-import os
+import dj_database_url
 from decouple import config
 from pathlib import Path
 
@@ -11,7 +11,7 @@ ALLOWED_HOSTS = ["*"]
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "*",
+    "https://*",
     "https://assonelection-production.up.railway.app",
 ]
 
@@ -68,16 +68,16 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["PGDATABASE"],
-        "USER": os.environ["PGUSER"],
-        "PASSWORD": os.environ["PGPASSWORD"],
-        "HOST": os.environ["PGHOST"],
-        "PORT": os.environ["PGPORT"],
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ["PGDATABASE"],
+#         "USER": os.environ["PGUSER"],
+#         "PASSWORD": os.environ["PGPASSWORD"],
+#         "HOST": os.environ["PGHOST"],
+#         "PORT": os.environ["PGPORT"],
+#     }
+# }
 
 # DATABASES = {
 #     "default": {
@@ -85,6 +85,12 @@ DATABASES = {
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+
+DATABASES = {
+    "default": dj_database_url.config(
+        default=config("DATABASE_PUBLIC_URL"), conn_max_age=600
+    )
+}
 
 
 # Password validation
