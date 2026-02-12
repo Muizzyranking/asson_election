@@ -23,19 +23,24 @@ def vote(request):
 
     if request.method == "POST":
         matric = request.POST.get("matric")
-        last_name = request.POST.get("last_name")
+        name = request.POST.get("name")  # Changed from last_name to name
         try:
-            student = Student.objects.get(matric=matric, last_name=last_name)
-            if student.has_voted:
-                messages.error(request, "You have already voted.")
-                return redirect("voters:landing_page")
-
-            # Show student details page with voting option
-            return render(
-                request,
-                "voters/student_details.html",
-                {"student": student, "from_election": True},
-            )
+            normalized_name = name.title().strip()
+            student = Student.objects.get(matric=matric)
+            if (
+                normalized_name == student.first_name
+                or normalized_name == student.last_name
+            ):
+                if student.has_voted:
+                    messages.error(request, "You have already voted.")
+                    return redirect("voters:landing_page")
+                return render(
+                    request,
+                    "voters/student_details.html",
+                    {"student": student, "from_election": True},
+                )
+            else:
+                raise Student.DoesNotExist
 
         except Student.DoesNotExist:
             messages.error(request, "Student details not found.")
